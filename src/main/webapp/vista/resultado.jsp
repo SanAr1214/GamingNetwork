@@ -11,6 +11,6 @@
 </head>
 <body>
     <h2><%= request.getAttribute("mensaje") %></h2>
-    <a href="/registroUsuario.jsp">Volver al registro</a>
+    <a href="vista/registroUsuario.jsp">Volver al registro</a>
 </body>
 </html>

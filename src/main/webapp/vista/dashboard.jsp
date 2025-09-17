@@ -1,9 +1,3 @@
-<%-- 
-    Document   : dashboard
-    Created on : 5/09/2025, 11:22:05 p. m.
-    Author     : santi
---%>
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="modelo.usuario" %>
 <!DOCTYPE html>

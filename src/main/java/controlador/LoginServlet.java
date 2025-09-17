@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Error al procesar la autenticación: " + e.getMessage());
-            request.getRequestDispatcher("/inicioUsuario.jsp").forward(request, response);
+            request.getRequestDispatcher("vista/inicioUsuario.jsp").forward(request, response);
         }
     }
 }

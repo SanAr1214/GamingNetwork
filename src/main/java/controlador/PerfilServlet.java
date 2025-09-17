@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * Servlet que maneja todo lo del perfil de usuario
  */
 package controlador;
 
@@ -15,29 +14,28 @@ import java.io.IOException;
 import dao.UsuarioDao;
 import modelo.usuario;
 
-/**
- *
- * @author santi
- */
 @WebServlet("/perfil")
 public class PerfilServlet extends HttpServlet {
 
     private UsuarioDao usuarioDao = new UsuarioDao();
 
+    // Cuando se entra por GET (mostrar perfil)
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
-    usuario u = usuarioDao.getById(idUsuario);
+        int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+        usuario u = usuarioDao.getById(idUsuario);
 
-    if (u != null) {
-        request.setAttribute("usuario", u);
-        request.getRequestDispatcher("/vista/perfil.jsp").forward(request, response); // <- Aquí es importante
-    } else {
-        response.sendRedirect(request.getContextPath() + "/inicioUsuario.jsp");
+        if (u != null) {
+            // mando el usuario a la vista perfil.jsp
+            request.setAttribute("usuario", u);
+            request.getRequestDispatcher("/vista/perfil.jsp").forward(request, response);
+        } else {
+            // si no existe me manda de nuevo al inicio
+            response.sendRedirect(request.getContextPath() + "/inicioUsuario.jsp");
+        }
     }
-}
 
-
+    // Cuando se entra por POST (actualizar perfil)
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
@@ -46,20 +44,23 @@ public class PerfilServlet extends HttpServlet {
         String correo = request.getParameter("correo");
         String contraseña = request.getParameter("contraseña");
 
+        // armo el objeto usuario con los datos del form
         usuario u = new usuario();
         u.setIdUsuario(idUsuario);
         u.setNombre(nombre);
         u.setNickname(nickname);
         u.setCorreo(correo);
         if (contraseña != null && !contraseña.isEmpty()) {
-            u.setContraseña(contraseña);
+            u.setContraseña(contraseña); // solo actualizo si la escriben
         }
 
         boolean actualizado = usuarioDao.actualizarUsuario(u);
 
         if (actualizado) {
+            // si actualizo, recargo el perfil
             response.sendRedirect("perfil?idUsuario=" + idUsuario);
         } else {
+            // si no, muestro error y vuelvo al perfil.jsp
             request.setAttribute("error", "No se pudo actualizar el perfil.");
             request.setAttribute("usuario", u);
             request.getRequestDispatcher("/vista/perfil.jsp").forward(request, response);

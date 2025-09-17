@@ -5,6 +5,7 @@ controlador\LogoutServlet.class
 controlador\UsuarioServlet.class
 gn\gnproyect\JakartaRestConfiguration.class
 controlador\EliminarUsuarioServlet.class
+conexion\conexion.class
 dao\Conexion.class
 dao\UsuarioDao.class
 modelo\Reserva.class
